@@ -1,11 +1,9 @@
-package docere
 
 import org.scalatest._
 import wordspec._
 import matchers._
 import testingutils.*
-
-
+import typings.langium.libSyntaxTreeMod.AstNode
 
 
 class TempTest extends wordspec.AsyncWordSpec with should.Matchers :
@@ -34,11 +32,13 @@ class TempTest extends wordspec.AsyncWordSpec with should.Matchers :
     }
   }  
 
+  
+  // def f(t:String): PCM = ???
 
 
   "streamAllContents:TreeSTream" should {
     "convert to scala List[T] and then can be traversed" in {
-      import testingutils.langAstUtils.*
+      import testingutils.GenAst.*
 
       val result = Try {
         parse(aurora1).toFuture
@@ -52,7 +52,9 @@ class TempTest extends wordspec.AsyncWordSpec with should.Matchers :
       result.map {module =>
         val listOfElements = streamAllContents(module).toScalaList
         //note I use the f"" string interpolator to format the output
-        listOfElements.foreach{ node => info(f"Asttype: ${node.$type}%16s, text: ${node.$cstNode.toOption.get.text}%5s, textOffset: ${node.$cstNode.toOption.get.offset}%4s")}
+        listOfElements.foreach{ node => info(f"Asttype: ${node.$type}%16s ")}
+        // listOfElements.foreach{ node => info(f"Asttype: ${node.$type}%16s text: ${node.$cstNode.toOption.get.text.stripLeading().trim}%15s")}
+        // listOfElements.foreach{ node => info(f"Asttype: ${node.$type}%16s, text: ${node.$cstNode.toOption.get.text}%5s, textOffset: ${node.$cstNode.toOption.get.offset}%4s")}
         listOfElements.size shouldNot be(0) // remember   asynchronous tests must end in a Future[Assertion] 
       }
     }

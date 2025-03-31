@@ -8,9 +8,11 @@ package testingutils
   export typings.auroraLangium.distTypesSrcLanguageGeneratedModuleMod as langGenAst
   
   //the following two imports were helped by exporting them from arith-utils from the typesript project
-  export typings.auroraLangium.cliMod.AstUtils as langAstUtils
-  export typings.auroraLangium.cliMod.CstUtils as langCstUtils
+  export typings.auroraLangium.cliMod.AstUtils.{streamAllContents}
+  export typings.auroraLangium.cliMod.GenAst as GenAst
+  export typings.auroraLangium.cliMod.GenAstType as GenAstType
   export typings.auroraLangium.cliMod.parse
+
 
 
   val fExtension = "aurora"

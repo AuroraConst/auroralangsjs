@@ -7,16 +7,13 @@
 	"categories": [
 		"Other"
 	],
-
+	"dependencies": {
+		"aurora-langium": "0.2.1",
+		"langium": "3.2.0"
+	},
 	"devDependencies": {
 		"@scala-js/vite-plugin-scalajs": "^1.0.0",
-		"typescript": "^5.6.3",
-        "@types/vscode": "^1.94.0"
-		
-        
-	},
-	"dependencies": {
-		"aurora-langium": "0.2.1"
+		"@types/vscode": "^1.94.0",
+		"typescript": "^5.6.3"
 	}
-
 }
