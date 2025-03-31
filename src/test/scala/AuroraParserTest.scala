@@ -21,7 +21,7 @@ class AuroraParserTest extends wordspec.AsyncWordSpec with should.Matchers {
       info(s"Platform: ${platform}")
       
       // info(s"checkFiles: $checkFiles")    
-      val checkFiles =  testFiles
+      val checkFiles =  testFilesMath
           .map{fn => 
             info(s"filename: $fn")
             checkFileAccess(fn)}

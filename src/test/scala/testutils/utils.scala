@@ -14,7 +14,7 @@ package testingutils
 
 
   val fExtension = "aurora"
-  val testFiles = List("math1", "math2", "math3").map{testFullPath}
-  val testFilesAurora = List("aurora1").map{testFullPath}
+  val testFilesMath = List("math1", "math2", "math3").map{testFullPath}
+  val testFilesAurora = List("aurora1","aurora2").map{testFullPath}
   
   private  def testFullPath(name: String) = testAuroraFiles / s"$name.$fExtension"
