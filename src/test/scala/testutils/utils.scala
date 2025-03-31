@@ -13,6 +13,10 @@ package testingutils
   export typings.auroraLangium.cliMod.GenAstType as GenAstType
   export typings.auroraLangium.cliMod.parse
 
+  // export typings.auroraLangium.distTypesSrcLanguageGeneratedAstMod.{Clinical, PCM, Orders}
+
+
+
 
 
   val fExtension = "aurora"

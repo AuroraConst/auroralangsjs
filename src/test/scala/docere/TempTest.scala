@@ -12,6 +12,7 @@ class TempTest extends wordspec.AsyncWordSpec with should.Matchers :
   
   val aurora1 = testFilesAurora(0)
   val aurora2 = testFilesAurora(1)
+
   
   "test files aurora1.aurora and aurora2.aurora" should {
     "exist" in {
@@ -32,14 +33,44 @@ class TempTest extends wordspec.AsyncWordSpec with should.Matchers :
     }
   }  
 
+
+  sealed trait SjsAstType(astNode: AstNode)  
   
-  // def f(t:String): PCM = ???
+  // case class PCM(astNode:AstNode) extends SjsAstType(astNode)
+  // case class Issue(astNode:AstNode) extends SjsAstType(astNode)
+  // case class IssueCoordate(astNode:AstNode) extends SjsAstType(astNode)
+  // case class Order(astNode:AstNode) extends SjsAstType(astNode)
+  // case class OrderCoordate(astNode:AstNode) extends SjsAstType(astNode)
+  // case class NGO(astNode:AstNode) extends SjsAstType(astNode)
+  // case class Invalid(astNode:AstNode) extends SjsAstType(astNode)
+
+  // def f(astNode:AstNode): SjsAstType = astNode.$type match {
+  //   case "PCM" => PCM(astNode)
+  //   case "Issue" => Issue(astNode)
+  //   case "IssueCoordate" => IssueCoordate(astNode)
+  //   case "Order" => Order(astNode)
+  //   case "OrderCoordate" => OrderCoordate(astNode)
+  //   case "NGO" => NGO(astNode)
+  //   case _ => Invalid(astNode)
+  // }
+
+
+  "peek into type ifor"  should { "show information" in {
+    
+
+    Future(true should be (true))
+    // Future(info(s"${PCM}")). map {
+    //   x => x should be(())
+    // }
+
+  }
+  }
+  
 
 
   "streamAllContents:TreeSTream" should {
     "convert to scala List[T] and then can be traversed" in {
-      import testingutils.GenAst.*
-
+      import GenAstType.reflection.getAllTypes
       val result = Try {
         parse(aurora1).toFuture
       }.recover { error =>
