@@ -13,3 +13,12 @@ if (Test-Path $userIvyPath) {
 } else {
     Write-Host "Cache directory not found at $userIvyPath"
 }
+
+
+Remove-Item .\.bloop -Recurse
+Remove-Item .\.metals -Recurse
+Remove-Item .\.bsp -Recurse
+Remove-Item .\project\.bloop -Recurse
+Remove-Item .\project\target -Recurse
+Remove-Item .\target -Recurse
+

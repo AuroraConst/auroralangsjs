@@ -45,6 +45,10 @@ lazy val root = project
         // CommonJS
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
     libraryDependencies ++= Dependencies.scalatest.value,
+    libraryDependencies ++= Dependencies.cats.value,
+
+    // ignore this npm package for types
+    // stIgnore += "chalk",
 
     // Compile / npmDependencies ++= Seq("@types/vscode" -> "1.84.1"),
     // Tell ScalablyTyped that we manage `npm install` ourselves

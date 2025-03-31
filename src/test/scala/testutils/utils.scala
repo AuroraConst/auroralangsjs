@@ -5,15 +5,16 @@ package testingutils
   export scala.concurrent.ExecutionContext.Implicits.global
   export scala.concurrent.Future
   export scala.util.Try
-  export typings.auroraLangium.distTypesSrcCliCliUtilMod.{parse}
   export typings.auroraLangium.distTypesSrcLanguageGeneratedModuleMod as langGenAst
   
   //the following two imports were helped by exporting them from arith-utils from the typesript project
-  export typings.auroraLangium.distTypesSrcCliCliUtilMod.AstUtils as langAstUtils
-  export typings.auroraLangium.distTypesSrcCliCliUtilMod.CstUtils as langCstUtils
+  export typings.auroraLangium.cliMod.AstUtils as langAstUtils
+  export typings.auroraLangium.cliMod.CstUtils as langCstUtils
+  export typings.auroraLangium.cliMod.parse
 
 
-  val fExtension = "arith"
+  val fExtension = "aurora"
   val testFiles = List("math1", "math2", "math3").map{testFullPath}
+  val testFilesAurora = List("aurora1").map{testFullPath}
   
   private  def testFullPath(name: String) = testAuroraFiles / s"$name.$fExtension"

@@ -1,6 +1,6 @@
 object DependencyVersions {
 
-  val scala             = "3.5.1"
+  val scala             = "3.3.5"
   val scalajsdom        = "2.8.0"
   val scalajsmacrotaskexecutor = "1.1.1"
   val laminar           = "17.1.0"
