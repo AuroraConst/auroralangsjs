@@ -56,6 +56,7 @@ object FileUtils:
   def cwd = Process.cwd()
   def testResourcePath = cwd / "src" / "test" / "resources"
   def testAuroraFiles = testResourcePath / "aurora" //aurora files will be placed here for testing
+  def testIssueFiles = testResourcePath / "aurora" / "issues"
   def testHelloFile = testResourcePath / "hello.txt"
   
   def checkFileAccess(path: String, mode: Int = FSConstants.F_OK): Boolean = 
