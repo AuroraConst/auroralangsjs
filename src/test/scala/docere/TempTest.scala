@@ -23,6 +23,8 @@ class TempTest extends wordspec.AsyncWordSpec with should.Matchers :
   import typings.auroraLangium.distTypesSrcLanguageGeneratedAstMod.*
 
   "process issues + issues"  should { "work" in {
+
+    
     parse(aurora1).toFuture.map{ pcm =>
       pcm.elements.foreach{ node => 
       info(f"Asttype: ${node.$type}%16s ") }

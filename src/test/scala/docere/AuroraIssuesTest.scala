@@ -5,9 +5,7 @@ import matchers._
 import testingutils.*
 
 
-import cats.kernel.BoundedSemilattice
 import typings.langium.libSyntaxTreeMod.AstNode
-import typings.langium.libSyntaxTreeMod.CstNode
 
 
 case class TextAstNode(s:String,a:AstNode)
