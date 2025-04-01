@@ -36,21 +36,21 @@ class PCMTest extends wordspec.AsyncWordSpec with should.Matchers :
   }
 
   "PCM+PCM" should { "work" in {
-    import cats.syntax.semigroup._ // for |+|
-    import catsgivens.given
-    for{
-      pcm1 <- parse(issues1a).toFuture
-      pcm2 <- parse(issues1b).toFuture
+      import cats.syntax.semigroup._ // for |+|
+      import catsgivens.given
+      for{
+        pcm1 <- parse(issues1a).toFuture
+        pcm2 <- parse(issues1b).toFuture
+      }
+      yield {
+        val result = SjsAst.pcm(pcm1) |+| SjsAst.pcm(pcm2)
+        println("**************************")
+        println(SjsAst.pcm(pcm1))
+        println(SjsAst.pcm(pcm2))
+        println(s"$result")
+        println(s"${result.text}")
+        true should be(true)
+      }
     }
-    yield {
-      val result = SjsAst.pcm(pcm1) |+| SjsAst.pcm(pcm2)
-      println("**************************")
-      println(SjsAst.pcm(pcm1))
-      println(SjsAst.pcm(pcm2))
-      println(s"$result")
-      println(s"${result.text}")
-      true should be(true)
-    }
-  }
   }
 }

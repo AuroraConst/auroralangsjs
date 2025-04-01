@@ -8,7 +8,7 @@ object ccnode :
     case class IdNode[T](id:String, sjsNode:SjsNode, astNode:AstNode)
 
     extension[T <: SjsNode] (s:Set[T]) 
-      def text = s.map{i => i.text}.foldLeft(""){(a,b) => a + separator+ b }
+      def text = s.map{i => i.text}.foldLeft(""){ _ + separator + _ }
     
     lazy val separator = "\r\n"
 
@@ -21,22 +21,15 @@ object ccnode :
 
     case class PCM1(cio:Map[String,Clinical|Issues|Orders]) extends SjsNode :
       override def text = 
-        val s = cio.keySet
+        cio.keySet
           .map{
-            cio(_)  
+            cio(_)  match {
+              case c:Clinical => c.text
+              case i:Issues   => i.text
+              case o:Orders   => o.text
+            }
           }
-          .map{x => x match {
-            case c:Clinical => ???
-            case o:Orders => ???
-            case i:Issues => ???
-            // l => l.{i => i.text + separator}}
-          }
-        }
-        "fake"
-        // cio.keySet.map {key =>
-        //   val r = cio(key)//.map{i => i.text + separator}.getOrElse
-        //   "fake"
-      //  }
+          .foldLeft(""){_ + _}
     
     case class Clinical(ngc:Set[NGC]) extends SjsNode :
       override def text = "Clinical:" + ngc.text
@@ -68,19 +61,18 @@ object ccnode :
 
 
     //TODO FIX THIS
-    // def pcm1(p:GenAst.PCM) :PCM1 = 
-    //   val i = p.elements.toList
-    //     .map(x => x.$type -> x)
-    //     .map{ case(t,o) =>
-    //       t match {
-    //         case "Issues" => t -> issues(o.asInstanceOf[GenAst.Issues])
-    //         case "Orders" => t -> orders(o.asInstanceOf[GenAst.Orders])
-    //         case "Clinical" => t -> clinical(o.asInstanceOf[GenAst.Clinical])
-    //       }
+    def pcm1(p:GenAst.PCM) :PCM1 = 
+      val i = p.elements.toList
+        .map(x => x.$type -> x)
+        .map{ case(t,o) =>
+          t match {
+            case "Issues" => t -> issues(o.asInstanceOf[GenAst.Issues])
+            case "Orders" => t -> orders(o.asInstanceOf[GenAst.Orders])
+            case "Clinical" => t -> clinical(o.asInstanceOf[GenAst.Clinical])
+          }
 
-    //     }
-    //     .toMap
-    //   PCM1(i)
+        }.toMap.asInstanceOf[Map[String, Clinical|Issues|Orders]]
+      PCM1(i)
     def pcm(p :GenAst.PCM):PCM = 
       val i = p.elements.toList.filter(x => x.$type == "Issues").headOption.map(x => issues(x.asInstanceOf[GenAst.Issues]))
       PCM(i)
