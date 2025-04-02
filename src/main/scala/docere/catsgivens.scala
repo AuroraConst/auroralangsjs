@@ -79,8 +79,9 @@ object catsgivens :
         val a = xkeys.map{k => combinex(x.cio(k),y.cio(k)) }  //TODO: NEED TO CHECK if y(x) is empty, I like toOption.getOrElse(Map.empty)
         val b = ykeys diff xkeys map{k => combinex(x.cio(k),y.cio(k)) }//TODO need to check if x(k) is empty I like toOption.getOrElse(Map.empty)
         SjsAst.PCM((a union b).toList.map{x => x.name -> x}.toMap)
-
   }
+
+  //TODO THINK OF ADDING BoundedSemilattice[SjsAst.Orders] and BoundedSemilattice[NGO] is it worht it?
 
 
 
