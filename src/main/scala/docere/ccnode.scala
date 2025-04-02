@@ -109,6 +109,8 @@ object ccnode :
       override val name = id
       override def text = id
 
+
+    //TODO MOVE THESE  to appropriate companion object apply for these conversion functions
     def clinical(c: GenAst.Clinical) : Clinical =
       val g = c.namedGroups.toList.map{ngc(_)}.toSet
       Clinical(g)
