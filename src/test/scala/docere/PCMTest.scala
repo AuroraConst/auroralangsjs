@@ -4,6 +4,7 @@ import wordspec._
 import matchers._
 import testingutils.*
 import docere.ccnode.SjsAst
+import docere.GenAst.Orders
 
 
 
@@ -31,9 +32,19 @@ class PCMTest extends wordspec.AsyncWordSpec with should.Matchers :
 
       true should be(true)
     }
-
-      
   }
+
+
+  "PCM1" should {"work" in {
+    parse(issues1a).toFuture
+    .map{ pcm =>
+      val result = SjsAst.PCM(pcm)
+      println(s"$result")
+      println(s"${result.text}")
+      true should be(true)
+    }
+
+  }}
 
   "PCM+PCM" should { "work" in {
       import cats.syntax.semigroup._ // for |+|
@@ -43,14 +54,16 @@ class PCMTest extends wordspec.AsyncWordSpec with should.Matchers :
         pcm2 <- parse(issues1b).toFuture
       }
       yield {
-        val result = SjsAst.pcm(pcm1) |+| SjsAst.pcm(pcm2)
-        println("**************************")
-        println(SjsAst.pcm(pcm1))
-        println(SjsAst.pcm(pcm2))
-        println(s"$result")
-        println(s"${result.text}")
+        val result = SjsAst.PCM(pcm1) |+| SjsAst.PCM(pcm2)
+
+
+        // println(SjsAst.PCM(pcm1).cio("Orders").asInstanceOf[SjsAst.Orders].ngo.map{(k,v) => k -> v.set}.text)
+        // val x = SjsAst.PCM(pcm1).cio("Orders").asInstanceOf[SjsAst.Orders].ngo.map{(k,v) => k -> v.set}
+        println("***")
+        println(result.text)
         true should be(true)
       }
     }
   }
+
 }

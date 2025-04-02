@@ -1,4 +1,4 @@
-package docere
+ package docere
 import org.scalatest._
 import wordspec._
 import matchers._

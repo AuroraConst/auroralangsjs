@@ -1,25 +1,45 @@
 package docere
 
-import typings.langium.libSyntaxTreeMod.AstNode
-
+import cats.syntax.semigroup._ // for |+|
 object ccnode :
 
   object SjsAst:
-    case class IdNode[T](id:String, sjsNode:SjsNode, astNode:AstNode)
-
     extension[T <: SjsNode] (s:Set[T]) 
-      def text = s.map{i => i.text}.foldLeft(""){ _ + separator + _ }
-    
+      def text:String = s.map{i => i.text}.foldLeft(""){_ + separator + _ } + separator
+
+    extension[T <: SjsNode] (s:List[T]) //TODO: rough idea of converting  List of repeating elemnts and colidating into a set
+      def toMapOfSet(m:List[SjsAst.IdSet[T]]):Map[String,Set[T]] = 
+        m.foldLeft(Map[String,Set[T]]())  {(acc,e) => 
+        acc + (e.name -> (acc(e.name) |+| e.set))
+      }
+
+      def text:String = s.map{i => i.text}.foldLeft(""){_ + separator + _ } + separator
+  
+
+    extension[T <: SjsNode] (m:Map[String,Set[T]])
+      
+      def text:String =  
+        var x = "" 
+        m.keySet.map{k => x = k ; m(k).text}.foldLeft(x)(_ + _ + separator ) + separator
+
     lazy val separator = "\r\n"
 
-    sealed trait SjsNode :
-      def text:String 
+
+    sealed trait TestText :
+      def text:String
 
 
-    case class PCM(issues:Option[Issues]) extends SjsNode :
-      override def text = issues.map{i => i.text + separator}.getOrElse("")
+    sealed trait SjsNode extends TestText:
+      val name:String
 
-    case class PCM1(cio:Map[String,Clinical|Issues|Orders]) extends SjsNode :
+    sealed trait IdSet[T <: SjsNode] extends SjsNode :
+      val id:String
+      val set:Set[T]
+      def text:String = id + separator + set.text + separator
+
+
+    case class PCM(cio:Map[String,Clinical|Issues|Orders]) extends SjsNode :
+      override val name = "PCM"
       override def text = 
         cio.keySet
           .map{
@@ -30,52 +50,64 @@ object ccnode :
             }
           }
           .foldLeft(""){_ + _}
+    object PCM :      
+      def apply(p:GenAst.PCM) :PCM = 
+        val i = p.elements.toList
+          .map(x => x.$type -> x)
+          .map{ case(t,o) =>
+            t match {
+              case "Issues" => t -> issues(o.asInstanceOf[GenAst.Issues])
+              case "Orders" => t -> Orders.apply(o.asInstanceOf[GenAst.Orders])
+              case "Clinical" => t -> clinical(o.asInstanceOf[GenAst.Clinical])
+            }
+
+          }.toMap.asInstanceOf[Map[String, Clinical|Issues|Orders]]
+        PCM(i)
+
+      def apply(cio:Map[String,Clinical|Issues|Orders]) = new PCM(cio)
+
     
     case class Clinical(ngc:Set[NGC]) extends SjsNode :
-      override def text = "Clinical:" + ngc.text
+      override val name = "Clinical"
+      override def text = "$name:" + ngc.text
 
-    case class Issues(ics:Set[IssueCoordinate])  extends SjsNode :
-      override def text = "Issues:" + ics.text
-    case class Orders(ngo:Set[NGO])  extends SjsNode :
-      override def text = "Orders:" + ngo.text
+    case class Issues(ics:Set[IssueCoordinate])  extends SjsNode :  
+      override val name = "Issues"
+      override def text = s"$name:" + ics.text
+    case class Orders(ngo:Map[String,NGO])  extends SjsNode :
+      override val name = "Orders"
+      override def text = s"$name:" + separator +  ngo.map {(k,v) => k -> v.set}.text 
+    
+    object Orders :
+      def apply(o:GenAst.Orders)  : Orders = 
+        val ng = o.namedGroups.toList.map{NGO.apply(_)}.toSet
+          .map{x => x.id -> x}.toMap
+        Orders( ng )  
 
-
-
+  
 
     case class IssueCoordinate(id:String) extends SjsNode :
+      override val name = id
       override def text = id
 
-    case class NGO(id:String, ocoords:Set[OrderCoordinate])   extends SjsNode :
-      override def text = id
+    case class NGO( id:String, set:Set[OrderCoordinate])   extends SjsNode with IdSet[OrderCoordinate ] :
+      override val name = "NamedGroupOrder"
+      override def text = id + separator + set.text + separator
+    object NGO :
+      def apply(n: GenAst.NGO): NGO = 
+        val ocoords = n.orders.toList.map{o =>  ocoord(o.asInstanceOf[GenAst.OrderCoordinate])}.toSet
+        NGO(n.name,ocoords)
+
     case class NGC(id:String, ccoords:Set[ClinicalCoordinate])  extends SjsNode :
-      override def text = id
+      override val name = id
+      override def text = id +ccoords.text
 
     case class OrderCoordinate(id:String) extends SjsNode :
+      override val name = id
       override def text = id
     case class ClinicalCoordinate(id:String) extends SjsNode :
+      override val name = id
       override def text = id
-
-
-
-
-
-
-    //TODO FIX THIS
-    def pcm1(p:GenAst.PCM) :PCM1 = 
-      val i = p.elements.toList
-        .map(x => x.$type -> x)
-        .map{ case(t,o) =>
-          t match {
-            case "Issues" => t -> issues(o.asInstanceOf[GenAst.Issues])
-            case "Orders" => t -> orders(o.asInstanceOf[GenAst.Orders])
-            case "Clinical" => t -> clinical(o.asInstanceOf[GenAst.Clinical])
-          }
-
-        }.toMap.asInstanceOf[Map[String, Clinical|Issues|Orders]]
-      PCM1(i)
-    def pcm(p :GenAst.PCM):PCM = 
-      val i = p.elements.toList.filter(x => x.$type == "Issues").headOption.map(x => issues(x.asInstanceOf[GenAst.Issues]))
-      PCM(i)
 
     def clinical(c: GenAst.Clinical) : Clinical =
       val g = c.namedGroups.toList.map{ngc(_)}.toSet
@@ -85,17 +117,9 @@ object ccnode :
       val coordinates = i.coord.toList.map{icoord(_) }.toSet
       Issues(coordinates)
 
-    def orders(o:GenAst.Orders)  : Orders = 
-      val ng = o.namedGroups.toList.map{ngo(_)}.toSet
-      Orders(ng )  
-
     def ngc(n: GenAst.NGC): NGC  =
       val x = n.coord.map{o =>  ccoord(o.asInstanceOf[GenAst.ClinicalCoordinate])}.toSet
       NGC(n.name,x)
-    def ngo(n: GenAst.NGO): NGO = 
-      val x = n.orders.map{o =>  ocoord(o.asInstanceOf[GenAst.OrderCoordinate])}.toSet
-      // NGO(coordinates)  
-      NGO(n.name,x)
 
     def ccoord(c: GenAst.ClinicalCoordinate) : ClinicalCoordinate =
       ClinicalCoordinate(c.name)
