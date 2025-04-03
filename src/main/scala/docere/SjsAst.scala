@@ -1,6 +1,8 @@
 package docere
 
 import cats.syntax.semigroup._ // for |+|
+import scala.scalajs.js
+import js.JSConverters._
 
 object SjsAst:
   extension[T <: SjsNode] (s:Set[T]) 
@@ -20,6 +22,8 @@ object SjsAst:
       m.keySet.map{k =>  (k -> m(k).text)}.foldLeft(""){(acc,e) => 
         acc + e._1  + e._2 + separator
       }
+
+
 
   lazy val separator = "\r\n"
 
@@ -73,6 +77,8 @@ object SjsAst:
   case class Issues(ics:Set[IssueCoordinate])  extends SjsNode :  
     override val name = "Issues"
     override def text = s"$name:" + ics.text
+  
+  
   case class Orders(ngo:Map[String,NGO])  extends SjsNode :
     override val name = "Orders"
     override def text = s"$name:" + separator +  ngo.map {(k,v) => k -> v.set}.text
@@ -89,21 +95,43 @@ object SjsAst:
     override val name = id
     override def text = id
 
-  case class NGO( id:String, set:Set[OrderCoordinate])   extends SjsNode with IdSet[OrderCoordinate ] :
+  case class NGO( id:String, set:Set[SjsAst.OrderCoordinate])   extends SjsNode with IdSet[OrderCoordinate ] :
     override val name = "NamedGroupOrder"
     override def text = id + separator + set.text 
   object NGO :
     def apply(n: GenAst.NGO): NGO = 
-      val ocoords = n.orders.toList.map{o =>  ocoord(o.asInstanceOf[GenAst.OrderCoordinate])}.toSet
+      val ocoords = n.orders.toList
+      .map{o =>  SjsAst.OrderCoordinate(o.asInstanceOf[GenAst.OrderCoordinate])}
+      .toSet
       NGO(n.name,ocoords)
 
   case class NGC(id:String, ccoords:Set[ClinicalCoordinate])  extends SjsNode :
     override val name = id
     override def text = id +ccoords.text
 
-  case class OrderCoordinate(id:String) extends SjsNode :
+  //TODO: finish texting of OrderCoordinate
+  case class OrderCoordinate(id:String, refs:Map[String,RefCoordinate]=Map.empty) extends SjsNode :
+
+    private def toIdMap = ???
+    override val name = id 
+    override def text =   id 
+  object OrderCoordinate :
+    def apply(o: GenAst.OrderCoordinate): OrderCoordinate = 
+      val x = o.refs.toList.map{r =>  r.$refText -> RefCoordinate(r.$refText)}.toMap
+      OrderCoordinate(o.name,x)
+
+
+  case class RefCoordinate(id:String) extends SjsNode :
     override val name = id
-    override def text = id
+    override def text = "(RefCoordinate finish implementation)"
+
+  object RefCoordinate:
+    def apply[T](langref:GenAst.LangiumReference[T]): RefCoordinate = 
+      RefCoordinate(langref.$refText)
+
+
+      
+
   case class ClinicalCoordinate(id:String) extends SjsNode :
     override val name = id
     override def text = id
@@ -127,7 +155,5 @@ object SjsAst:
   def icoord(i: GenAst.IssueCoordinate): IssueCoordinate = 
     IssueCoordinate(i.name)
     
-  def ocoord(i: GenAst.OrderCoordinate): OrderCoordinate = 
-    OrderCoordinate(i.name)
 
     

@@ -58,7 +58,7 @@ class PCMTest extends wordspec.AsyncWordSpec with should.Matchers :
         // println(SjsAst.PCM(pcm1).cio("Orders").asInstanceOf[SjsAst.Orders].ngo.map{(k,v) => k -> v.set}.text)
         // val x = SjsAst.PCM(pcm1).cio("Orders").asInstanceOf[SjsAst.Orders].ngo.map{(k,v) => k -> v.set}
         println("***")
-        println(result.text)
+        println(result)
         true should be(true)
       }
     }
