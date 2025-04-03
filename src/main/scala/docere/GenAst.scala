@@ -2,6 +2,7 @@ package docere
 
   object GenAst :
     import typings.auroraLangium.distTypesSrcLanguageGeneratedAstMod as GenAstMod
+    import typings.langium.libSyntaxTreeMod.Reference
     
     type PCM                          = GenAstMod.PCM
     type Issues                       = GenAstMod.Issues
@@ -12,4 +13,6 @@ package docere
     type NGC                          = GenAstMod.NamedGroupClinical
     type OrderCoordinate              = GenAstMod.OrderCoordinate
     type ClinicalCoordinate           = GenAstMod.ClinicalCoordinate 
-    
+    type RefCoordinateType            = GenAstMod.ReferenceCoordinate
+    type LangiumReference[T]          = Reference[T]
+
