@@ -4,7 +4,7 @@ import cats.syntax.semigroup._ // for |+|
 
 object SjsAst:
   extension[T <: SjsNode] (s:Set[T]) 
-    def text:String = s.map{i => i.text}.foldLeft(""){_ + separator + _ } + separator
+    def text:String = s.map{i => i.text}.foldLeft(""){_ + separator + _ } 
 
   extension[T <: SjsNode] (s:List[T]) //TODO: rough idea of converting  List of repeating elemnts and colidating into a set
     def toMapOfSet(m:List[SjsAst.IdSet[T]]):Map[String,Set[T]] = 
@@ -91,7 +91,7 @@ object SjsAst:
 
   case class NGO( id:String, set:Set[OrderCoordinate])   extends SjsNode with IdSet[OrderCoordinate ] :
     override val name = "NamedGroupOrder"
-    override def text = id + separator + set.text + separator
+    override def text = id + separator + set.text 
   object NGO :
     def apply(n: GenAst.NGO): NGO = 
       val ocoords = n.orders.toList.map{o =>  ocoord(o.asInstanceOf[GenAst.OrderCoordinate])}.toSet
