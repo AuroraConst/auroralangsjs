@@ -16,10 +16,10 @@ object SjsAst:
 
 
   extension[T <: SjsNode] (m:Map[String,Set[T]])
-    
     def text:String =  
-      var x = "" 
-      m.keySet.map{k => x = k ; m(k).text}.foldLeft(x)(_ + _ + separator ) + separator
+      m.keySet.map{k =>  (k -> m(k).text)}.foldLeft(""){(acc,e) => 
+        acc + e._1 + separator + e._2 + separator
+      }
 
   lazy val separator = "\r\n"
 
@@ -75,7 +75,7 @@ object SjsAst:
     override def text = s"$name:" + ics.text
   case class Orders(ngo:Map[String,NGO])  extends SjsNode :
     override val name = "Orders"
-    override def text = s"$name:" + separator +  ngo.map {(k,v) => k -> v.set}.text 
+    override def text = s"$name:" + separator +  ngo.map {(k,v) => k -> v.set}.text
   
   object Orders :
     def apply(o:GenAst.Orders)  : Orders = 

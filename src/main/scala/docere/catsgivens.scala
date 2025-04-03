@@ -41,8 +41,8 @@ object catsgivens :
           val xkeys = x.keySet
           val ykeys = y.keySet
           val a = xkeys.map{k => k -> (x(k) |+| y.get(k).getOrElse(Set.empty)) }  //TODO: NEED TO CHECK if y(x) is empty, I like toOption.getOrElse(Map.empty)
-          val b = ykeys diff xkeys map{k => k -> (x(k) |+| y(k)) }
-          (a union b).toList.map{(k,v) => k -> v}.toMap
+          val b = ykeys diff xkeys map{k => k -> (x.get(k).getOrElse(Set.empty) |+| y(k)) }
+          (a |+| b).toMap
        }
   }
 
@@ -66,6 +66,10 @@ object catsgivens :
       }
   }
 
+  // given BoundedSemilattice[SjsAst.NGO] = new BoundedSemilattice[SjsAst.NGO] {
+  //   def empty = SjsAst.NGO("",Set.empty)
+  //   def combine(x: SjsAst.NGO, y: SjsAst.NGO): SjsAst.NGO = ???
+  // }
   
 
   given  BoundedSemilattice[SjsAst.PCM] = new BoundedSemilattice[SjsAst.PCM] {
