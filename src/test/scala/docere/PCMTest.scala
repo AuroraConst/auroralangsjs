@@ -3,7 +3,7 @@ import org.scalatest._
 import wordspec._
 import matchers._
 import testingutils.*
-import docere.ccnode.SjsAst
+import docere.SjsAst
 import docere.GenAst.Orders
 
 

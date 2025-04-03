@@ -2,7 +2,6 @@ package docere
 
 
 import cats.kernel.BoundedSemilattice
-import docere.ccnode.SjsAst
 import cats.syntax.semigroup._ // for |+|
 
 
@@ -12,7 +11,7 @@ object catsgivens :
     def combine(x: Option[T], y: Option[T]): Option[T] = 
       if (x == empty) y
       else if (y == empty) x
-      else x  //first come first serve (I guess)
+      else x |+| y
   }
 
   given [T] :  BoundedSemilattice[List[T]] = new BoundedSemilattice[List[T]] {
@@ -41,7 +40,7 @@ object catsgivens :
        else {
           val xkeys = x.keySet
           val ykeys = y.keySet
-          val a = xkeys.map{k => k -> (x(k) |+| y(k)) }  //TODO: NEED TO CHECK if y(x) is empty, I like toOption.getOrElse(Map.empty)
+          val a = xkeys.map{k => k -> (x(k) |+| y.get(k).getOrElse(Set.empty)) }  //TODO: NEED TO CHECK if y(x) is empty, I like toOption.getOrElse(Map.empty)
           val b = ykeys diff xkeys map{k => k -> (x(k) |+| y(k)) }
           (a union b).toList.map{(k,v) => k -> v}.toMap
        }
@@ -52,33 +51,31 @@ object catsgivens :
     def combine(x: SjsAst.Issues, y: SjsAst.Issues): SjsAst.Issues = SjsAst.Issues(x.ics |+|  y.ics)
   }
 
+  type CIO = SjsAst.Clinical | SjsAst.Issues | SjsAst.Orders
+  given BoundedSemilattice[CIO] = new BoundedSemilattice[CIO] {
+    def empty = SjsAst.Clinical(Set.empty)
+    def combine(x: CIO, y: CIO): CIO =  x match {
+        case c:SjsAst.Clinical => SjsAst.Clinical(c.ngc |+| y.asInstanceOf[SjsAst.Clinical].ngc)
+        case i:SjsAst.Issues   => SjsAst.Issues(i.ics |+| y.asInstanceOf[SjsAst.Issues].ics)
+        case o:SjsAst.Orders   => 
+          val x = o.ngo.map{(k,cc) => k -> cc.set}
+          val x1 = y.asInstanceOf[SjsAst.Orders].ngo.map{(k,cc) => k -> cc.set}
+          val r = x |+| x1
+          val mapNGO = r.map{(k,v) => k -> SjsAst.NGO(k,v)}
+          SjsAst.Orders(mapNGO) 
+      }
+  }
+
   
 
   given  BoundedSemilattice[SjsAst.PCM] = new BoundedSemilattice[SjsAst.PCM] {
-    import SjsAst.{Clinical, Issues, Orders}
-    private def combinex(x:Clinical|Issues|Orders, y:Clinical|Issues|Orders): Clinical|Issues|Orders = 
-      x match {
-        case c:Clinical => Clinical(c.ngc |+| y.asInstanceOf[Clinical].ngc)
-        case i:Issues   => Issues(i.ics |+| y.asInstanceOf[Issues].ics)
-        case o:Orders   => 
-          val x = o.ngo.map{(k,cc) => k -> cc.set}
-          val x1 = y.asInstanceOf[Orders].ngo.map{(k,cc) => k -> cc.set}
-          val r = x |+| x1
-          val mapNGO = r.map{(k,v) => k -> SjsAst.NGO(k,v)}
-          Orders(mapNGO) 
-      }
 
     def empty: SjsAst.PCM = SjsAst.PCM(Map.empty)
     def combine(x: SjsAst.PCM, y: SjsAst.PCM): SjsAst.PCM = 
       if (x == empty) y
       else if (y == empty) x
       else 
-        val xkeys = x.cio.keySet
-        val ykeys = y.cio.keySet
-
-        val a = xkeys.map{k => combinex(x.cio(k),y.cio(k)) }  //TODO: NEED TO CHECK if y(x) is empty, I like toOption.getOrElse(Map.empty)
-        val b = ykeys diff xkeys map{k => combinex(x.cio(k),y.cio(k)) }//TODO need to check if x(k) is empty I like toOption.getOrElse(Map.empty)
-        SjsAst.PCM((a union b).toList.map{x => x.name -> x}.toMap)
+        SjsAst.PCM(x.cio |+| y.cio)
   }
 
   //TODO THINK OF ADDING BoundedSemilattice[SjsAst.Orders] and BoundedSemilattice[NGO] is it worht it?
