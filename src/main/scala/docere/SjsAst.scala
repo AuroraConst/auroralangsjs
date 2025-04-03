@@ -18,7 +18,7 @@ object SjsAst:
   extension[T <: SjsNode] (m:Map[String,Set[T]])
     def text:String =  
       m.keySet.map{k =>  (k -> m(k).text)}.foldLeft(""){(acc,e) => 
-        acc + e._1 + separator + e._2 + separator
+        acc + e._1  + e._2 + separator
       }
 
   lazy val separator = "\r\n"
