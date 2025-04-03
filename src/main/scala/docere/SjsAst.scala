@@ -36,8 +36,8 @@ object SjsAst:
     val set:Set[T]
     def text:String = id + separator + set.text + separator
 
-
-  case class PCM(cio:Map[String,Clinical|Issues|Orders]) extends SjsNode :
+  type CIO = SjsAst.Clinical | SjsAst.Issues | SjsAst.Orders
+  case class PCM(cio:Map[String,CIO]) extends SjsNode :
     override val name = "PCM"
     override def text = 
       cio.keySet
@@ -53,14 +53,14 @@ object SjsAst:
     def apply(p:GenAst.PCM) :PCM = 
       val i = p.elements.toList
         .map(x => x.$type -> x)
-        .map{ case(t,o) =>
+        .map{(t,o) =>
           t match {
             case "Issues" => t -> issues(o.asInstanceOf[GenAst.Issues])
             case "Orders" => t -> Orders.apply(o.asInstanceOf[GenAst.Orders])
             case "Clinical" => t -> clinical(o.asInstanceOf[GenAst.Clinical])
           }
 
-        }.toMap.asInstanceOf[Map[String, Clinical|Issues|Orders]]
+        }.toMap.asInstanceOf[Map[String, CIO]]
       PCM(i)
 
     def apply(cio:Map[String,Clinical|Issues|Orders]) = new PCM(cio)
