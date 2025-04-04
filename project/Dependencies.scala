@@ -44,6 +44,12 @@ object Dependencies {
     )
   }
 
+  val pprint   :     Def.Initialize[Seq[ModuleID]] = Def.setting {
+    Seq(
+      "com.lihaoyi" %%% "pprint" % DependencyVersions.pprint % "test"
+    )
+  } 
+
 
   val laminar: Def.Initialize[Seq[ModuleID]] = Def.setting {
     Seq(

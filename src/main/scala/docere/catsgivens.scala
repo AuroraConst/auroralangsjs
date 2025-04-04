@@ -57,16 +57,29 @@ object catsgivens :
     def combine(x: CIO, y: CIO): CIO =  x match {
         case c:SjsAst.Clinical => SjsAst.Clinical(c.ngc |+| y.asInstanceOf[SjsAst.Clinical].ngc)
         case i:SjsAst.Issues   => SjsAst.Issues(i.ics |+| y.asInstanceOf[SjsAst.Issues].ics)
-        case o:SjsAst.Orders   => 
-          val x = o.ngo.map{(k,cc) => k -> cc.set}
-          val x1 = y.asInstanceOf[SjsAst.Orders].ngo.map{(k,cc) => k -> cc.set}
-          val r = x |+| x1
-          val mapNGO = r.map{(k,v) => k -> SjsAst.NGO(k,v)}
-          SjsAst.Orders(mapNGO) 
+        case o:SjsAst.Orders   => x |+| y
+          // val x = o.ngo.map{(k,cc) => k -> cc.set}
+          // val x1 = y.asInstanceOf[SjsAst.Orders].ngo.map{(k,cc) => k -> cc.set}
+          // val r = x |+| x1
+          // val mapNGO = r.map{(k,v) => k -> SjsAst.NGO(k,v)}
+          // SjsAst.Orders(mapNGO) 
       }
   }
 
-  
+  //TODO: FINISH THIS
+  given BoundedSemilattice[SjsAst.Orders] = new BoundedSemilattice[SjsAst.Orders] { 
+    def empty: SjsAst.Orders = SjsAst.Orders(Map.empty)
+    def combine(x: SjsAst.Orders, y: SjsAst.Orders): SjsAst.Orders = 
+      if (x == empty) y
+      else if (y == empty) x
+      else 
+        val x1 = x.ngo.map{(k,cc) => k -> cc.set}
+        val x2 = y.ngo.map{(k,cc) => k -> cc.set}
+        val r = x1 |+| x2
+        val mapNGO = r.map{(k,v) => k -> SjsAst.NGO(k,v)}
+        SjsAst.Orders(mapNGO)
+  }
+
 
   given  BoundedSemilattice[SjsAst.PCM] = new BoundedSemilattice[SjsAst.PCM] {
 

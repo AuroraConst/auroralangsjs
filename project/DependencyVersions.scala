@@ -12,5 +12,6 @@ object DependencyVersions {
   val waypoint          = "8.0.1"
   val scalaJsStubs      = "1.1.0"
   val shapeless3        = "3.4.3"
+  val pprint            = "0.9.0"
 
 }
