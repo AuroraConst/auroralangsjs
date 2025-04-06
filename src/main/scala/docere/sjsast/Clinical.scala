@@ -3,7 +3,10 @@ package docere.sjsast
 case class Clinical(ngc:Set[NGC]) extends SjsNode :
   override val name = "Clinical" 
 
-  override def merge(p: SjsNode): SjsNode = ???
+  def merge(c: Clinical): Clinical =
+    Clinical(ngc merge ngc)
+  override def merge(p: SjsNode): SjsNode = 
+    merge(p.asInstanceOf[Clinical])
 
 
 
@@ -13,13 +16,3 @@ object Clinical :
   //   Clinical(g)
 
 
-
-
-  // def ngc(n: GenAst.NGC): NGC  =
-  //   val x = n.coord.map{o =>  ccoord(o.asInstanceOf[GenAst.ClinicalCoordinate])}.toSet
-  //   NGC(n.name,x)
-
-  // def ccoord(c: GenAst.ClinicalCoordinate) : ClinicalCoordinate =
-  //   ClinicalCoordinate(c.name)
-  // def icoord(i: GenAst.IssueCoordinate): IssueCoordinate = 
-  //   IssueCoordinate(i.name)

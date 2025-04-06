@@ -10,6 +10,6 @@ case class OrderCoordinate (name:String, refs:Set[RefCoordinate]=Set.empty) exte
 
 object OrderCoordinate :
   def apply(o: GenAst.OrderCoordinate): OrderCoordinate = 
-    val x = o.refs.toList.map{r =>  r.$refText -> RefCoordinate(r.$refText)}.toMap
-    OrderCoordinate(o.name)
+    val x = o.refs.toList.map{r =>  RefCoordinate(r.$refText)}.toSet
+    OrderCoordinate(o.name,x)
 

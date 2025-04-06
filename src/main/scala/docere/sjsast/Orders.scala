@@ -9,7 +9,7 @@ case class Orders(ngo:Set[NGO])  extends SjsNode :
 
 object Orders :
   def apply(o:GenAst.Orders)  : Orders = 
-    val ng = o.namedGroups.toList.map{NGO.apply(_)}.toSet
+    val ng = o.namedGroups.toList.map{NGO(_)}.toSet
     Orders( ng )  
 
     

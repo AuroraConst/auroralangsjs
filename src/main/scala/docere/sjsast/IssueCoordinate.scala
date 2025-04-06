@@ -5,7 +5,7 @@ case class IssueCoordinate (name:String) extends SjsNode :
 
   def merge(i: IssueCoordinate): IssueCoordinate = i
 
-  override def merge(p: SjsNode): SjsNode = ???
+  override def merge(p: SjsNode): SjsNode = merge(p.asInstanceOf[IssueCoordinate])
 
 
 object IssueCoordinate :

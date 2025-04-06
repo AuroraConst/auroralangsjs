@@ -1,2 +1,13 @@
 Issues:
+a
+b
 c
+Orders:
+NG:
+a(b,c)
+b(a)
+c(a)
+NGA:
+z(c)
+NGB:
+x
