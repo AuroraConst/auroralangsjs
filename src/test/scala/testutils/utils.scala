@@ -1,10 +1,13 @@
 package testingutils
+
+  import com.axiom.AuroraAsyncTest
   export com.axiom.testutils.FileUtils.*
   export com.axiom.testutils.Convertors.*
   export scala.scalajs.js.JSConverters.*
   export scala.concurrent.ExecutionContext.Implicits.global
   export scala.concurrent.Future
   export scala.util.Try
+  export com.axiom.{AuroraAsyncTest,AuroraTest}
   
   //the following two imports were helped by exporting them from arith-utils from the typesript project
   export typings.auroraLangium.cliMod.AstUtils.{streamAllContents}
