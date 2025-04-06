@@ -1,6 +1,6 @@
 package docere
 
-import SjsAst.*
+import docere.sjsast.*
 object contructors :
   val issueCoordsX = List("a","b")
   val issueCoordsY = List("b","c")

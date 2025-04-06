@@ -1,4 +1,4 @@
-package com.axiom
+package docere.testutils
 import org.scalatest._
 
 import wordspec._
@@ -10,6 +10,10 @@ import  scala.concurrent.ExecutionContext.Implicits.global
   */
 
 class AuroraAsyncTest extends wordspec.AsyncWordSpec with should.Matchers{
+  def ppinfo(a:Any) = {
+    val s = pprint.apply(a)
+    info(s"${s}")
+  }
   
   override implicit def executionContext = global
 

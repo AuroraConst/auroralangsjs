@@ -1,6 +1,6 @@
-package com.axiom
+package docere.sjsast
 
-import testingutils.*
+import docere.testutils.*
 
 
 class AuroraParserTest extends AuroraAsyncTest {

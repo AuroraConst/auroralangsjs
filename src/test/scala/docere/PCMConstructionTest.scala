@@ -1,9 +1,5 @@
-package docere
-import testingutils.*
-import SjsAst.*
-import catsgivens.{given}
-
-import cats.syntax.semigroup._ // for |+|
+package docere.sjsast
+import docere.testutils.*
 
 class PCMConstructionTest extends AuroraTest :
   

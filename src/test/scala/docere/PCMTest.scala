@@ -1,9 +1,6 @@
-package docere
-import testingutils.*
-import SjsAst.*
-import catsgivens.{given}
+package docere.sjsast
+import docere.testutils.*
 
-import cats.syntax.semigroup._ // for |+|
 
 class PCMTest extends AuroraAsyncTest :
   val issues1a = testIssuesAurora(0)
@@ -19,9 +16,7 @@ class PCMTest extends AuroraAsyncTest :
   "PCM" should { "work" in {
     parse(issues1a).toFuture
     .map{ pcm =>
-      pcm.elements.foreach{ node => 
-      info(f"Asttype: ${node.$type}%16s ") }
-      true should be(true)
+      pending
     }
   }}
 
