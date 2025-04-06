@@ -9,5 +9,7 @@ class PCMConstructionTest extends AuroraTest :
     val refCoordsX2 = refs(Set("b","c"))
     val ocoordsX1 = ocoords(Set("x","y"),refCoordsX1)
     val ocoordsX2 = ocoords(Set("y","z"),refCoordsX2)
+    info("I need to turn this into an actual test or just get rid of this")
+    pending 
   }}
 
