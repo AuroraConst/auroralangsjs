@@ -44,7 +44,7 @@ object catsgivens :
               case (Some(x),Some(y)) => k -> x.merge(y).asInstanceOf[T]
               case (Some(x),None) =>    k -> x
               case (None,Some(y)) =>    k -> y
-              // case (None,None)    =>    k -> SjsAst.InvalidSjsNode().merge[T](SjsAst.InvalidSjsNode())
+              case (None,None)    =>    ???//k -> SjsAst.InvalidSjsNode().merge[T](SjsAst.InvalidSjsNode())
             }
           }.toMap    
 

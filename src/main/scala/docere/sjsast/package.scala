@@ -3,6 +3,7 @@ package docere.sjsast
 
 export docere.sjsast.catsgivens.given
 export cats.syntax.semigroup._ // for |+|
+export docere.sjsast.ShowAurora.given
 
 
 trait SjsNode :

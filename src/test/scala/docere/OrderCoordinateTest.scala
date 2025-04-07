@@ -4,15 +4,7 @@ import docere.contructors.*
 
 
 class OrdersAndChildrenTest extends AuroraTest :
-  import cats.Show
-  given Show[OrderCoordinate] =
-    Show.show{
-      (rc: OrderCoordinate) => 
-        val result = rc.refs.map{_.name}.mkString(",") 
-        val name = rc.name
-        s"$name($result)"
-    }
-
+  
   "RefCoordinates" should {
     "merge" in {
       val refCoordsX1 = refs(Set("a","b"))
@@ -30,8 +22,9 @@ class OrdersAndChildrenTest extends AuroraTest :
 
 
       import cats.syntax.show._ 
-      val result = ocoordsX2.map{_.show}
-      result.foreach(x => info(x))
+      val result = NGO("NGO", ocoordsX2.merge(ocoordsX1)).show
+
+      info(result)
   }}
 
 
