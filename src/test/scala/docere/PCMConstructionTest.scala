@@ -9,7 +9,19 @@ class PCMConstructionTest extends AuroraTest :
     val refCoordsX2 = refs(Set("b","c"))
     val ocoordsX1 = ocoords(Set("x","y"),refCoordsX1)
     val ocoordsX2 = ocoords(Set("y","z"),refCoordsX2)
-    info("I need to turn this into an actual test or just get rid of this")
+
+    val ngoX1 = NGO("ngoX1",ocoordsX1)
+    val ngoY2 = NGO("ngoX2",ocoordsX2)
+
+    val ordersX = Orders(Set(ngoX1))
+    val ordersY = Orders(Set(ngoY2))
+
+    val cioX = Set(ordersX).asMap.map{(k,v) => k ->v.asInstanceOf[CIO]}
+
+    val PCMX = docere.sjsast.PCM(cioX)
+    info(PCMX.show)
+
+    // info("I need to turn this into an actual test or just get rid of this")
     pending 
   }}
 
