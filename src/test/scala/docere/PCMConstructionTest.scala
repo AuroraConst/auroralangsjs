@@ -21,7 +21,6 @@ class PCMConstructionTest extends AuroraTest :
     val PCMX = docere.sjsast.PCM(cioX)
     info(PCMX.show)
 
-    // info("I need to turn this into an actual test or just get rid of this")
     pending 
   }}
 

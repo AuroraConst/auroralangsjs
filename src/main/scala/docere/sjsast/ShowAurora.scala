@@ -9,7 +9,7 @@ object ShowAurora:
       (p: PCM) => 
         val childrenShow = p.cio.get("Orders").map{ _.asInstanceOf[Orders] }
           .map{_.show}.getOrElse("")
-        s"PCM:$newline$childrenShow"  
+        s"$newline$childrenShow"  
   }     
 
 
@@ -38,5 +38,5 @@ object ShowAurora:
       (ng: NGO) => 
         val result = ng.orderCoordinates.map{(oc:OrderCoordinate) => oc.show}.mkString(newline)
         val name = ng.name
-        s"$name:$newline$result"
+        s"$name$newline$result"
     }

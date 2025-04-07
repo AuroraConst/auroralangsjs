@@ -24,7 +24,7 @@ class PCMTest extends AuroraAsyncTest :
     yield {
       val result = sjsast.PCM(p1) merge sjsast.PCM(p2)
       result should be(sjsast.PCM(p3))
-        ppinfo(result)
+      ppinfo(sjsast.PCM(p1).show)
       pending
     }
   }}
