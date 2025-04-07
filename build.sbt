@@ -14,32 +14,18 @@ lazy val installDependencies = Def.task[Unit] {
   }
 }
 
-lazy val open = taskKey[Unit]("Open VSCode extension based on platform")
+lazy val open = taskKey[Unit]("open vscode")
+def openVSCodeTask: Def.Initialize[Task[Unit]] =
+  Def
+    .task[Unit] {
+      val base = baseDirectory.value
+      val log = streams.value.log
 
-open := {
-  val base = baseDirectory.value
-  val log = streams.value.log
-  val path = base.getCanonicalPath
-
-
-  val osName = System.getProperty("os.name").toLowerCase
-  val platform =
-    if (osName.contains("win")) "win32"
-    else if (osName.contains("mac")) "darwin"
-    else if (osName.contains("nix") || osName.contains("nux") || osName.contains("aix")) "linux"
-    else "unknown"
-
-  val command = platform match {
-    case "win32" => s"code.cmd --extensionDevelopmentPath=\$path"
-    case _       => s"code --extensionDevelopmentPath=\$path"
-  }
-
-  log.info(s"Detected platform: \$platform")
-  log.info(s"Running: \$command")
-
-  val result = command.!(log)
-  if (result != 0) sys.error("Failed to open VSCode")
-}
+      val path = base.getCanonicalPath
+      s"code.cmd --extensionDevelopmentPath=$path" ! log
+      ()
+    }
+    // .dependsOn(installDependencies)
 
 lazy val root = project
   .in(file("."))
