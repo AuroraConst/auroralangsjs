@@ -1,8 +1,10 @@
 Issues:
 a
-
+b
+c
 Orders:
 NG:
-a(a)
+a(b)
+b(a)
 NGA:
-z
+z(c)

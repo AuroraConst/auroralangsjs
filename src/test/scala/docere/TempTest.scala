@@ -1,14 +1,7 @@
- package docere
-import org.scalatest._
-import wordspec._
-import matchers._
-import testingutils.*
-import typings.langium.libSyntaxTreeMod.AstNode
+package docere.sjsast
+import docere.testutils.*
 
-
-class TempTest extends wordspec.AsyncWordSpec with should.Matchers :
-  override implicit def executionContext = global
-  
+class TempTest extends AuroraAsyncTest :
   
   val aurora1 = testFilesAurora(0)
   val aurora2 = testFilesAurora(1)
@@ -23,16 +16,13 @@ class TempTest extends wordspec.AsyncWordSpec with should.Matchers :
   import typings.auroraLangium.distTypesSrcLanguageGeneratedAstMod.*
 
   "process issues + issues"  should { "work" in {
-
-    
     parse(aurora1).toFuture.map{ pcm =>
       pcm.elements.foreach{ node => 
       info(f"Asttype: ${node.$type}%16s ") }
 
       true should be(true)
     }
-  }
-}
+  }}
   
 
 

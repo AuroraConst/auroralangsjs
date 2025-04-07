@@ -1,4 +1,4 @@
-package docere
+package docere.sjsast
 
   object GenAst :
     import typings.auroraLangium.distTypesSrcLanguageGeneratedAstMod as GenAstMod

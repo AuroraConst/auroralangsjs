@@ -1,3 +1,4 @@
+import sbt.internal.IvyConsole.Dependencies
 import scala.sys.process._
 
 lazy val installDependencies = Def.task[Unit] {
@@ -59,6 +60,7 @@ lazy val root = project
         // CommonJS
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
     libraryDependencies ++= Dependencies.scalatest.value,
+    libraryDependencies ++= Dependencies.pprint.value,
     libraryDependencies ++= Dependencies.cats.value,
 
     // ignore this npm package for types
