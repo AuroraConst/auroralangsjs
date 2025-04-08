@@ -7,6 +7,9 @@ Please check there on how to describe a VSCode Extension.
 #Important Note
 I could not get scalatest to work after multiple attempts.  Since this is front end work, get testing done on dependencies
 
+# Yash's giter8 for scala js vscode extension development
+gh repo clone yash-a-18/scalajsvscodeext.g8
+
 ## Your first Extension
 A step-by-step tutorial for **ScalaJS** using this example project.
 

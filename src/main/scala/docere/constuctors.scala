@@ -18,3 +18,4 @@ object contructors :
   def refs(names:Set[String]) = names.toSet.map{RefCoordinate(_)}
   def ocoords(names:Set[String],refs:Set[RefCoordinate] ) = names.toSet.map{x => OrderCoordinate(x, refs)}
   
+  
