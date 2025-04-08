@@ -1,6 +1,6 @@
 
 # Run the killjava script
-& "C:\dev\scripts\killjava.ps1"
+& ".\killjava.ps1"
 
 # Get user profile path dynamically
 $userIvyPath = Join-Path $env:USERPROFILE ".ivy2\local\org.scalablytyped\aurora-langium_sjs1_3"
