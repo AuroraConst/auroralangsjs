@@ -8,8 +8,7 @@ case class PCM(cio:Map[String,CIO]) extends SjsNode :
   def merge(p:PCM):PCM = 
     PCM( cio |+| p.cio)
 
-  override def merge(p: SjsNode): SjsNode = merge(p.asInstanceOf)
-
+  override def merge(p: SjsNode): SjsNode = merge(p.asInstanceOf[PCM])
 
 
 object PCM :      
