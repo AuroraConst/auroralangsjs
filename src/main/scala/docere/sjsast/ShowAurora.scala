@@ -15,8 +15,13 @@ object ShowAurora:
   }
 
   given Show[Issues] = Show.show { (i: Issues) =>
-    val result = i.ics.map { (ic: IssueCoordinate) => ic.name }.mkString(newline)
-    s"$result"
+    val result = i.ics.map { (ic: IssueCoordinate) => ic.show }.mkString(newline)
+    s"Issues:$newline$result"
+  }
+  given Show[IssueCoordinate] = Show.show { (ic: IssueCoordinate) =>
+    val result = ic.refs.map { _.name }.mkString(",")
+    val name = ic.name
+    s"$name($result)"
   }
 
   given Show[Orders] = Show.show { (o: Orders) =>
