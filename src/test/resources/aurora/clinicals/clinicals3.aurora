@@ -1,11 +1,11 @@
-Clinical:
-History:
+Clinical: ??abc;
+Admission: ??ads;
 referral
 Physical:
-chest
-abdomen
-arm
-leg
 knee
-Admission:
+arm
+chest
+leg
+abdomen ??abdomen1;
+History: ??hist;
 referral

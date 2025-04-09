@@ -18,6 +18,8 @@ val fExtension = "aurora"
 val testFilesMath = List("math1", "math2", "math3").map{testFullPath}
 val testFilesAurora = List("aurora1","aurora2").map{testFullPath}
 val testIssuesAurora = List("issues1a","issues1b","issues1c").map{testIssuesPath}
+val testClinicalsAurora = List("clinicals1","clinicals2","clinicals3").map{testClinicalsPath}
 
 private  def testFullPath(name: String) = testAuroraFiles / s"$name.$fExtension"
 private  def testIssuesPath(name:String) = testIssueFiles / s"$name.$fExtension"
+private  def testClinicalsPath(name:String) = testClinicalsFiles / s"$name.$fExtension"
