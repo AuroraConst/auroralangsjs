@@ -58,6 +58,7 @@ object FileUtils:
   def testAuroraFiles = testResourcePath / "aurora" //aurora files will be placed here for testing
   def testIssueFiles = testResourcePath / "aurora" / "issues"
   def testClinicalsFiles = testResourcePath / "aurora" / "clinicals"
+  def testOrdersFiles = testResourcePath / "aurora" / "orders"
   def testHelloFile = testResourcePath / "hello.txt"
   
   def checkFileAccess(path: String, mode: Int = FSConstants.F_OK): Boolean = 
