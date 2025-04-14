@@ -1,16 +1,14 @@
 package docere.sjsast
 
-
-case class IssueCoordinate (name:String, ref: Set[RefCoordinate]) extends SjsNode :
-
-  def merge(i: IssueCoordinate): IssueCoordinate = 
-    val result = ref |+| i.ref
+case class IssueCoordinate(name: String, refs: Set[RefCoordinate] = Set.empty) extends SjsNode:
+  def merge(ic: IssueCoordinate): IssueCoordinate =
+    val result = refs |+| ic.refs
     IssueCoordinate(name, result)
 
   override def merge(p: SjsNode): SjsNode =
-     merge(p.asInstanceOf[IssueCoordinate])
+    merge(p.asInstanceOf[IssueCoordinate])
 
-object IssueCoordinate :
-  def apply(i: GenAst.IssueCoordinate): IssueCoordinate = 
-    val resultRef = i.refs.toList.map{r =>  RefCoordinate(r.$refText)}.toSet
-    IssueCoordinate(i.name, resultRef)
+object IssueCoordinate:
+  def apply(i: GenAst.IssueCoordinate): IssueCoordinate =
+    val x = i.refs.toList.map { r => RefCoordinate(r.$refText) }.toSet
+    IssueCoordinate(i.name, x)
