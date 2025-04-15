@@ -12,7 +12,8 @@ package docere.sjsast
     type NGO                          = GenAstMod.NamedGroupOrder
     type NGC                          = GenAstMod.NamedGroupClinical
     type OrderCoordinate              = GenAstMod.OrderCoordinate
-    type ClinicalCoordinate           = GenAstMod.ClinicalCoordinate 
+    type ClinicalCoordinate           = GenAstMod.ClinicalCoordinate
+    type ClinicalValue                = GenAstMod.ClinicalValue
+    type ClinicalCoordinateValue      = GenAstMod.ClinicalCoordinate | GenAstMod.ClinicalValue
     type RefCoordinateType            = GenAstMod.ReferenceCoordinate
     type LangiumReference[T]          = Reference[T]
-
