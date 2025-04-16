@@ -5,13 +5,15 @@ import scala.scalajs.js
 case class ClinicalCoordinateValue(
   name: String,
   narrative: Set[Narrative] = Set.empty,
-  refs: Set[RefCoordinate] = Set.empty
+  refs: Set[RefCoordinate] = Set.empty,
+  qu: Set[QU] = Set.empty
 ) extends SjsNode:
 
   def merge(cc: ClinicalCoordinateValue): ClinicalCoordinateValue =
     val narratives = narrative |+| cc.narrative
     val result = refs |+| cc.refs
-    ClinicalCoordinateValue(name, narratives, result)
+    val qumerge = qu |+| cc.qu
+    ClinicalCoordinateValue(name, narratives, result,qumerge)
 
   override def merge(p: SjsNode): SjsNode =
     merge(p.asInstanceOf[ClinicalCoordinateValue])
@@ -32,4 +34,6 @@ object ClinicalCoordinateValue:
       .map(r => RefCoordinate(r.selectDynamic("$refText").asInstanceOf[String]))
       .toSet
 
-    ClinicalCoordinateValue(name, narratives, refs)
+    val qus = dyn.selectDynamic("qu").asInstanceOf[js.Array[js.Dynamic]].map{p =>  QU(p.selectDynamic("qu").asInstanceOf[String])}.toSet
+
+    ClinicalCoordinateValue(name, narratives, refs, qus)
