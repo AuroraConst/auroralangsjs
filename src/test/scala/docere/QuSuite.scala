@@ -24,7 +24,7 @@ class QuSuite extends AuroraTest {
 
     "return the incoming Qu when merging two different Qu instances (replacement)" in {
       val result = quDraft.merge(quMonitor)
-      //this test does not make sense in relation to QUs. 
+      //this test does not make sense in relation to QUs and how they work. 
       //result should be (quMonitor) 
  
       val result2 = quMonitor.merge(quDraft)

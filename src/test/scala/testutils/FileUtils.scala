@@ -60,6 +60,7 @@ object FileUtils:
   def testClinicalsFiles = testResourcePath / "aurora" / "clinicals"
   def testOrdersFiles = testResourcePath / "aurora" / "orders"
   def testHelloFile = testResourcePath / "hello.txt"
+  def testQUFiles = testResourcePath / "aurora" / "qu"
   
   def checkFileAccess(path: String, mode: Int = FSConstants.F_OK): Boolean = 
     Try(FS.accessSync(path, mode)).map(_ => true).getOrElse(false)
