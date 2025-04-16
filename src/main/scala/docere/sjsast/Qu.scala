@@ -2,12 +2,16 @@ package docere.sjsast
 
 case class QU(val query: String) extends SjsNode { 
   val name = "QU"
-
-  override def merge(p: SjsNode) = p match {
-    
-    case qu: QU => qu 
-    case _ => InvalidSjsNode() 
-  }
+  override def merge(p: SjsNode): SjsNode = {
+    if (Set("?", "!", "*", "~").contains(query)) {
+      p match {
+        case qu: QU => qu
+        case _ => InvalidSjsNode()
+      }
+    } else {
+      InvalidSjsNode()
+    }
+}
 }
 
 
