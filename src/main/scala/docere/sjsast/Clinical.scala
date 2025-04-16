@@ -1,6 +1,6 @@
 package docere.sjsast
 
-case class Clinical(ngc:Set[NGC], narrative:Set[Narrative]=Set.empty) extends SjsNode :
+case class Clinical(ngc:Set[NGC], narrative:Set[NL_STATEMENT]=Set.empty) extends SjsNode :
   override val name = "Clinical" 
 
   def merge(c: Clinical): Clinical =
@@ -12,5 +12,5 @@ case class Clinical(ngc:Set[NGC], narrative:Set[Narrative]=Set.empty) extends Sj
 object Clinical :
   def apply(c: GenAst.Clinical): Clinical = 
     val g = c.namedGroups.toList.map{NGC(_)}.toSet
-    val narratives = c.narrative.toList.map{n =>  Narrative(n.name)}.toSet
+    val narratives = c.narrative.toList.map{n =>  NL_STATEMENT(n.name)}.toSet
     Clinical(g, narratives)

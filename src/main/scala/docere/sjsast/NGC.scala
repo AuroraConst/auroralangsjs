@@ -5,7 +5,7 @@ import scala.scalajs.js
 case class NGC(
   name: String,
   ccoords: Set[ClinicalCoordinateValue],
-  narrative: Set[Narrative] = Set.empty,
+  narrative: Set[NL_STATEMENT] = Set.empty,
   refs: Set[RefCoordinate] = Set.empty
 ) extends SjsNode:
 
@@ -24,7 +24,7 @@ case class NGC(
 
 object NGC:
   def apply(n: GenAst.NGC): NGC =
-    val narratives = n.narrative.toList.map(n => Narrative(n.name)).toSet
+    val narratives = n.narrative.toList.map(n => NL_STATEMENT(n.name)).toSet
     val cc = n.coord.toList.map(c => ClinicalCoordinateValue(c)).toSet
     val refs = n.refs.toList.map(r => RefCoordinate(r.$refText)).toSet
     NGC(n.name, cc, narratives, refs)

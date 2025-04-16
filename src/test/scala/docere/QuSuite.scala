@@ -20,7 +20,7 @@ class QuSuite extends AuroraTest {
   "Qu.merge" should {
     val quDraft = QU("?")
     val quMonitor = QU("$")
-    val otherNode = Narrative("some text") 
+    val otherNode = NL_STATEMENT("some text") 
 
     "return the incoming Qu when merging two different Qu instances (replacement)" in {
       val result = quDraft.merge(quMonitor)

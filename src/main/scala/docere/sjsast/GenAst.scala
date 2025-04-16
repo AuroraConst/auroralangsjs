@@ -17,4 +17,5 @@ package docere.sjsast
     type ClinicalCoordinateValue      = GenAstMod.ClinicalCoordinate | GenAstMod.ClinicalValue
     type RefCoordinateType            = GenAstMod.ReferenceCoordinate
     type QU                           = GenAstMod.QU
+    type NL_STATEMENT                 = GenAstMod.NL_STATEMENT
     type LangiumReference[T]          = Reference[T]

@@ -17,4 +17,4 @@ object contructors:
   def refs(names: Set[String]) = names.toSet.map { RefCoordinate(_) }
   def ocoords(names: Set[String], refs: Set[RefCoordinate]) = names.toSet.map { x => OrderCoordinate(x, refs) }
   def icoords(names: Set[String], refs: Set[RefCoordinate]) = names.toSet.map { x => IssueCoordinate(x, refs) }
-  def ccoords(names: Set[String], narrative:Set[Narrative],refs: Set[RefCoordinate]) = names.toSet.map { x => ClinicalCoordinate(x, narrative, refs) }
+  def ccoords(names: Set[String], narrative:Set[NL_STATEMENT],refs: Set[RefCoordinate]) = names.toSet.map { x => ClinicalCoordinate(x, narrative, refs) }

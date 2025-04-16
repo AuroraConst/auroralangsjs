@@ -4,7 +4,7 @@ import scala.scalajs.js
 
 case class ClinicalCoordinateValue(
   name: String,
-  narrative: Set[Narrative] = Set.empty,
+  narrative: Set[NL_STATEMENT] = Set.empty,
   refs: Set[RefCoordinate] = Set.empty,
   qu: Set[QU] = Set.empty
 ) extends SjsNode:
@@ -26,7 +26,7 @@ object ClinicalCoordinateValue:
 
     val narratives = dyn.selectDynamic("narrative")
       .asInstanceOf[js.Array[js.Dynamic]]
-      .map(n => Narrative(n.selectDynamic("name").asInstanceOf[String]))
+      .map(n => NL_STATEMENT(n.selectDynamic("name").asInstanceOf[String]))
       .toSet
 
     val refs = dyn.selectDynamic("refs")
